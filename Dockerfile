@@ -1,12 +1,13 @@
-FROM python3.13
+FROM python:3.14-slim
 
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /bin/uv
 
 WORKDIR /app
 
+COPY pyproject.toml uv.lock ./
+
+RUN uv sync --frozen --no-dev
+
 COPY /src/url_shorter .
 
-RUN pip install --no-cache-dir -r requirements.txt
-
-CMD ["python", "main.py"]
+ENTRYPOINT ["uv", "run", "python", "main.py"]

@@ -1,61 +1,49 @@
-
 <!DOCTYPE html>
-<html>
+<html lang="ru">
+    
     <head>
         <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>url shprot</title>
-        <meta name="description" content="Home page for url shprot">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>URL Shortener</title>
+        <meta name="description" content="Home page for url shortener">
         <link rel="stylesheet" href="/static/global.css" type="text/css" />
     </head>
     <body>
         <main>
-            <h1>Wlecome to URL shorter!!!</h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur blanditiis architecto nisi, recusandae unde, eligendi veritatis repellat quaerat nobis iusto totam, tenetur quisquam impedit? Ratione quae odio nemo mollitia atque.</p>
+            <h1>✨ URL Shortener</h1>
+            <p>Сокращайте длинные ссылки и делитесь ими легко! Просто вставьте URL в поле ниже.</p>
+            
+            <!-- Форма для создания новой ссылки -->
+            <section id="createLinkSection">
+                <h2>🔗 Создать короткую ссылку</h2>
+                <form id="createLinkForm">
+                    <div class="form-group">
+                        <label for="urlInput">Введите URL:</label>
+                        <input type="url" id="urlInput" placeholder="https://example.com" required>
+                    </div>
+                    <button type="submit" class="action create">Сократить</button>
+                </form>
+            </section>
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 16px;">
+                <h2 style="margin: 0;">📋 Все ссылки</h2>
+                <button id="refreshButton">🔄 Обновить</button>
+            </div>
+            
             <table id="linksTable">
                 <caption>
-                    All shorted links here in the table down below
+                    Все сокращенные ссылки
                 </caption>
                 <thead>
-                    <th scope="col">Code</th>
-                    <th scope="col">Link</th>
-                    <th scope="col"><button id="createButton" class="action create">Create</button></th>
+                    <tr>
+                        <th scope="col">Код</th>
+                        <th scope="col">Ссылка</th>
+                        <th scope="col" style="text-align: center;">Действие</th>
+                    </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td class="center">
-                            <span class="block code">h43dh33x</span>
-                        </td>
-                        <td>
-                            <span class="block"><a href="https://github.com/n04ka/url-shorter">https://github.com/n04ka/url-shorter</a></span>
-                        </td>
-                        <td class="center">
-                            <button class="action delete">Delete</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="center">
-                            <span class="block code">dccdc33e</span>
-                        </td>
-                        <td>
-                            <span class="block"><a href="https://developer.mozilla.org/ru/docs/Learn_web_development/Core/Styling_basics/Tables">https://developer.mozilla.org/ru/docs/Learn_web_development/Core/Styling_basics/Tables</a></span>
-                        </td>
-                        <td class="center">
-                            <button class="action delete">Delete</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="center">
-                            <span class="block code">4bu3b4fh</span>
-                        </td>
-                        <td>
-                            <span class="block"><a href="https://www.google.com/">https://www.google.com/</a></span>
-                        </td>
-                        <td class="center">
-                            <button class="action delete">Delete</button>
-                        </td>
-                    </tr>
+                    <!-- Ссылки будут загружены сюда автоматически -->
                 </tbody>
             </table>
         </main>

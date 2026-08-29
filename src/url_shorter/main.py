@@ -4,8 +4,8 @@ import os
 from fastapi.staticfiles import StaticFiles
 import uvicorn
 from fastapi import FastAPI, HTTPException, Query
-from fastapi.responses import HTMLResponse, RedirectResponse, JSONResponse
-
+from fastapi.responses import HTMLResponse, RedirectResponse, JSONResponse, PlainTextResponse
+from datetime import datetime
 # Happy Diwali!!!!! greetings from Indiaaaa
 
 ROOT = Path(__file__).resolve().parent
@@ -18,8 +18,12 @@ class LinkRepo:
         self.urls = {}
 
     def add_link(self, url: str) -> str:
-        code = generate_hash(url)[:5]
+        code = generate_hash(url)
+        while code in self.urls and url != self.urls[code]:
+            code = generate_hash(url, True)
+            print(f"added RANDOM {code} for {url}")
         self.urls[code] = url
+        print(f"added {code} for {url}")
         return code
 
     def get_link(self, code: str) -> str | None:
@@ -32,13 +36,15 @@ class LinkRepo:
 repo = LinkRepo()
 
 
-def generate_hash(url:str) -> str:
-    return md5(url.encode()).hexdigest()
+def generate_hash(url:str, random: bool = False) -> str:
+    if random:       
+        return generate_hash(url+datetime.now().isoformat())
+    return md5(url.encode()).hexdigest()[:5]
 
 
 @app.post("/link", status_code=201)
-def create_short_link(link: str) -> str:
-    return repo.add_link(link)
+def create_short_link(link: str) -> PlainTextResponse:
+    return PlainTextResponse(repo.add_link(link))
 
 
 @app.delete("/link", status_code=204)
@@ -64,8 +70,14 @@ app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
 @app.get("/home")
 def get_homepage() -> HTMLResponse:
-    return HTMLResponse((TEMPLATES_DIR / "home.html").read_text())
+    return HTMLResponse((TEMPLATES_DIR / "home.html").read_text(encoding='utf-8'))
+
 
 
 def run():
     uvicorn.run("url_shorter.main:app", host="0.0.0.0", port=8000, reload=True)
+
+
+
+#TODO: 2) поправить веб
+
